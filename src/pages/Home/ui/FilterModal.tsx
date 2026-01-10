@@ -68,10 +68,12 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 		setOpen(false)
 	}
 
-	const handleCancel = () => {
-		setTempFilters(filters)
-		setShowConfirmDialog(false)
-		setOpen(false)
+	const handleClearAll = () => {
+		setTempFilters([])
+	}
+
+	const handleResetAll = () => {
+		setTempFilters([])
 	}
 
 	const isOptionSelected = (filterId: string, optionId: string) => {
@@ -97,86 +99,90 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 				</Dialog.Trigger>
 
 				<Dialog.Portal>
-					<Dialog.Overlay className="fixed inset-0 bg-black/50 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
-					<Dialog.Content className="fixed left-[50%] top-[50%] translate-x-[-50%] translate-y-[-50%] w-full max-w-2xl max-h-[90vh] overflow-y-auto bg-white rounded-lg shadow-lg data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 data-[state=closed]:slide-out-to-left-1/2 data-[state=closed]:slide-out-to-top-[48%] data-[state=open]:slide-in-from-left-1/2 data-[state=open]:slide-in-from-top-[48%]">
-						<div className="p-6">
-							<div className="flex items-center justify-between mb-6">
-								<Dialog.Title className="text-2xl font-semibold text-gray-900">
-									{t('Filter Options')}
-								</Dialog.Title>
-								<Dialog.Close asChild>
-									<button
-										type="button"
-										className="p-2 hover:bg-gray-100 rounded-full transition-colors"
-									>
-										<X size={24} />
-									</button>
-								</Dialog.Close>
-							</div>
-
-							<div className="space-y-8">
-								{filterItems.map(filterItem => (
-									<div
-										key={filterItem.id}
-										className="space-y-4"
-									>
-										<div>
-											<h3 className="text-lg font-medium text-gray-900 mb-2">
-												{filterItem.name}
-											</h3>
-											{filterItem.description && (
-												<p className="text-sm text-gray-600 mb-4">
-													{filterItem.description}
-												</p>
-											)}
-										</div>
-										<div className="space-y-3">
-											{filterItem.options.map(option => (
-												<label
-													key={option.id}
-													className="flex items-start gap-3 p-4 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer transition-colors"
-												>
-													<input
-														type="checkbox"
-														checked={isOptionSelected(filterItem.id, option.id)}
-														onChange={() =>
-															handleOptionToggle(filterItem.id, option.id)
-														}
-														className="mt-1 w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-													/>
-													<div className="flex-1">
-														<p className="font-medium text-gray-900">
-															{option.name}
-														</p>
-														{option.description && (
-															<p className="text-sm text-gray-600 mt-1">
-																{option.description}
-															</p>
-														)}
-													</div>
-												</label>
-											))}
-										</div>
-									</div>
-								))}
-							</div>
-
-							<div className="flex gap-4 mt-8 pt-6 border-t border-gray-200">
-								<Dialog.Close asChild>
-									<button
-										type="button"
-										onClick={handleCancel}
-										className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
-									>
-										{t('Cancel')}
-									</button>
-								</Dialog.Close>
+					<Dialog.Overlay className="fixed inset-0 bg-[#BFBFBF] data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+					<Dialog.Content className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[1120px] max-w-[calc(100vw-32px)] max-h-[100vh-32зч] bg-white rounded-xl shadow-xl flex flex-col ">
+						<div className="shrink-0 px-10 pt-8 pb-6 border-b">
+							<Dialog.Title className="text-2xl font-semibold text-center">
+								{t('Filter Options')}
+							</Dialog.Title>
+							<Dialog.Close asChild>
 								<button
 									type="button"
-									onClick={handleApply}
-									className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+									className="absolute right-6 top-6 text-gray-500 hover:text-gray-900"
 								>
-									{t('Apply')}
+									<X size={20} />
+								</button>
+							</Dialog.Close>
+						</div>
+						<div className="flex-1 overflow-y-auto px-10 py-8">
+							{filterItems.map(section => (
+								<div key={section.id}>
+									<h3 className="text-sm font-medium text-gray-900 mb-4">
+										{section.name}
+									</h3>
+									<div className="grid grid-cols-3 gap-y-3">
+										{section.options.map(option => (
+											<label
+												key={option.id}
+												className="flex items-center gap-2 text-sm text-gray-700"
+											>
+												<input
+													type="checkbox"
+													className="w-4 h-4 rounded border-gray-300"
+													checked={isOptionSelected(section.id, option.id)}
+													onChange={() =>
+														handleOptionToggle(section.id, option.id)
+													}
+												/>
+												{option.name}
+											</label>
+										))}
+									</div>
+								</div>
+							))}
+						</div>
+						<div className="shrink-0 px-10 py-6 border-t">
+							{/* Mobile */}
+							<div className="flex sm:flex flex-col gap-4 md:hidden">
+								<button
+									onClick={handleApply}
+									className="w-full py-3 bg-orange-500 text-white rounded-full"
+								>
+									{t('Primary')}
+								</button>
+								<button
+									onClick={handleResetAll}
+									className="text-sm text-blue-600"
+								>
+									{t('Reset all parameters')}
+								</button>
+
+								<button
+									onClick={handleClearAll}
+									className="text-sm text-blue-600"
+								>
+									{t('Clear all parameters')}
+								</button>
+							</div>
+							{/* Desktop */}
+							<div className="hidden md:flex items-center justify-between">
+								<button
+									onClick={handleResetAll}
+									className="text-sm text-blue-600 hover:underline"
+								>
+									{t('Reset all parameters')}
+								</button>
+								<button
+									onClick={handleApply}
+									className="px-10 py-3 bg-orange-500 text-white rounded-full hover:bg-orange-600"
+								>
+									{t('Primary')}
+								</button>
+								<button
+									onClick={handleClearAll}
+									className="text-sm text-blue-600 hover:underline"
+								>
+									{t('Clear all parameters')}
 								</button>
 							</div>
 						</div>
