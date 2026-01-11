@@ -1,6 +1,9 @@
 name: Pipeline
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
 
 jobs:
   build:
@@ -12,24 +15,25 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{matrix.node-version}}
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: ${{ matrix.node-version }}
+          cache: npm
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm ci
 
-      - name: Run build
-        run: npm run build
+      - name: Lint
+        run: npm run lint:all
 
-      - name: Run format
+      - name: Format check
         run: npm run format:check:all
 
-      - name: Run lint
-        run: npm run lint:all
+      - name: Run tests
+        run: npm run test
+
+      - name: Build
+        run: npm run build
