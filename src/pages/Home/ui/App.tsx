@@ -26,7 +26,7 @@ export const App = () => {
 	}
 
 	return (
-		<section className="w-full min-h-dvh flex flex-col items-center justify-center bg-gray-50 p-8">
+		<section className="w-full min-h-dvh flex flex-col items-center justify-center bg-gray-70 p-8">
 			<h1 className="text-4xl font-semibold text-gray-800 mb-8">
 				{t('WinWinTravel')}
 			</h1>
