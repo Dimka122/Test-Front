@@ -90,9 +90,9 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 				<Dialog.Trigger asChild>
 					<button
 						type="button"
-						className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+						className="fixed top-6 right-6 px-10 py-2 bg-orange-400 text-white rounded-xl hover:bg-orange-600"
 					>
-						<Filter size={20} />
+						<Filter size={16} />
 						{/* eslint-disable-next-line i18next/no-literal-string */}
 						<span>Open Filter</span>
 					</button>
@@ -120,7 +120,7 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 									<h3 className="text-sm font-medium text-gray-900 mb-4">
 										{section.name}
 									</h3>
-									<div className="grid grid-cols-3 gap-y-3">
+									<div className="grid grid-cols-3 gap-y-3 ">
 										{section.options.map(option => (
 											<label
 												key={option.id}
@@ -128,7 +128,7 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 											>
 												<input
 													type="checkbox"
-													className="w-4 h-4 rounded border-gray-300"
+													className="w-4 h-4 rounded border-t"
 													checked={isOptionSelected(section.id, option.id)}
 													onChange={() =>
 														handleOptionToggle(section.id, option.id)
@@ -142,17 +142,16 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 							))}
 						</div>
 						<div className="shrink-0 px-10 py-6 border-t">
-							{/* Mobile */}
 							<div className="flex sm:flex flex-col gap-4 md:hidden">
 								<button
 									onClick={handleApply}
-									className="w-full py-3 bg-orange-500 text-white rounded-full"
+									className="px-24 w-full py-3 bg-orange-500 text-white rounded-xl hover:bg-orange-600"
 								>
 									{t('Primary')}
 								</button>
 								<button
 									onClick={handleResetAll}
-									className="text-sm text-blue-600"
+									className="text-sm text-gray-600 "
 								>
 									{t('Reset all parameters')}
 								</button>
@@ -207,7 +206,7 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 							<AlertDialog.Cancel asChild>
 								<button
 									type="button"
-									className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors"
+									className="flex-1 px-6 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
 								>
 									{t('Cancel')}
 								</button>
@@ -216,7 +215,7 @@ export const FilterModal = ({ filterItems }: FilterModalProps) => {
 								<button
 									type="button"
 									onClick={handleConfirmApply}
-									className="flex-1 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+									className="flex-1 px-6 py-3 bg-orange-400 text-white rounded-lg hover:bg-orange-600 transition-colors"
 								>
 									{t('Confirm')}
 								</button>

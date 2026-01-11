@@ -168,7 +168,6 @@ export const useFilterData = () => {
 	return useQuery({
 		queryKey: ['filterData'],
 		queryFn: async () => {
-			// Simulate API call delay
 			await new Promise(resolve => setTimeout(resolve, 500))
 			return mockFilterData.filterItems
 		},

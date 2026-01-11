@@ -32,7 +32,6 @@ export const App = () => {
 			</h1>
 
 			<div className="w-full max-w-4xl space-y-8">
-				{t(' Filter Button Section ')}
 				<div className="flex justify-center">
 					{filterItems && <FilterModal filterItems={filterItems} />}
 				</div>
